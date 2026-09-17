@@ -2,6 +2,7 @@
 using PortProxyGUI.Data;
 using PortProxyGUI.Utils;
 using System;
+using System.Drawing;
 using System.Net;
 using System.Net.Sockets;
 using System.Linq;
@@ -17,12 +18,14 @@ public partial class SetProxy : Form
     private bool _updateMode;
     private ListViewItem _listViewItem;
     private Rule _itemRule;
+    private Label _flowPreviewLabel;
 
     public SetProxy(PortProxyGUI parent)
     {
         ParentWindow = parent;
 
         InitializeComponent();
+        ConfigureExplanatoryLayout();
 
         AutoTypeString = comboBox_Type.Text = comboBox_Type.Items.OfType<string>().First();
         var groupNames = (
@@ -32,6 +35,164 @@ public partial class SetProxy : Form
             select header
         ).ToArray();
         comboBox_Group.Items.AddRange(groupNames);
+    }
+
+    private void ConfigureExplanatoryLayout()
+    {
+        Text = "设置 TCP 端口转发（Windows → 目标服务）";
+        ClientSize = new Size(760, 475);
+
+        var explanation = new Label
+        {
+            AutoSize = false,
+            Location = new Point(20, 15),
+            Size = new Size(720, 46),
+            Text = "客户端不会直接连接 WSL 或目标服务。本规则先让客户端连接 Windows，\r\n" +
+                   "再由 Windows 把 TCP 连接转发到下面填写的目标设备或服务。",
+        };
+
+        label_Type.Text = "IP 类型";
+        label_Type.Location = new Point(20, 73);
+        comboBox_Type.Location = new Point(100, 69);
+        comboBox_Type.Size = new Size(190, 25);
+
+        label_Group.Text = "规则分组";
+        label_Group.Location = new Point(335, 73);
+        comboBox_Group.Location = new Point(415, 69);
+        comboBox_Group.Size = new Size(325, 25);
+
+        var listenerGroup = new GroupBox
+        {
+            Location = new Point(20, 105),
+            Size = new Size(720, 100),
+            Text = "① Windows 本机（入口）：客户端连接这里",
+        };
+        label_ListenOn.Text = "监听 IP";
+        label_ListenOn.Location = new Point(16, 31);
+        textBox_ListenOn.Location = new Point(112, 27);
+        textBox_ListenOn.Size = new Size(320, 23);
+        label_ListenPort.Text = "监听端口";
+        label_ListenPort.Location = new Point(455, 31);
+        textBox_ListenPort.Location = new Point(570, 27);
+        textBox_ListenPort.Size = new Size(125, 23);
+        var listenerHint = new Label
+        {
+            AutoSize = false,
+            ForeColor = Color.DimGray,
+            Location = new Point(16, 59),
+            Size = new Size(680, 30),
+            Text = "0.0.0.0 / * = 所有网卡；10.126.126.16 = 仅监听本机 EasyTier 网卡。",
+        };
+        listenerGroup.Controls.AddRange(new Control[]
+        {
+            label_ListenOn, textBox_ListenOn, label_ListenPort, textBox_ListenPort, listenerHint,
+        });
+
+        var targetGroup = new GroupBox
+        {
+            Location = new Point(20, 215),
+            Size = new Size(720, 100),
+            Text = "② 目标设备/服务（出口）：Windows 把连接转发到这里",
+        };
+        label_ConnectTo.Text = "目标 IP";
+        label_ConnectTo.Location = new Point(16, 31);
+        textBox_ConnectTo.Location = new Point(112, 27);
+        textBox_ConnectTo.Size = new Size(320, 23);
+        label_ConnectPort.Text = "目标端口";
+        label_ConnectPort.Location = new Point(455, 31);
+        textBox_ConnectPort.Location = new Point(570, 27);
+        textBox_ConnectPort.Size = new Size(125, 23);
+        var targetHint = new Label
+        {
+            AutoSize = false,
+            ForeColor = Color.DimGray,
+            Location = new Point(16, 59),
+            Size = new Size(680, 30),
+            Text = "WSL：目标 IP 是 WSL 地址；目标端口是应用或容器在 WSL 内监听的端口。",
+        };
+        targetGroup.Controls.AddRange(new Control[]
+        {
+            label_ConnectTo, textBox_ConnectTo, label_ConnectPort, textBox_ConnectPort, targetHint,
+        });
+
+        var flowPanel = new Panel
+        {
+            BackColor = Color.FromArgb(239, 247, 255),
+            BorderStyle = BorderStyle.FixedSingle,
+            Location = new Point(20, 325),
+            Size = new Size(720, 80),
+        };
+        var flowTitle = new Label
+        {
+            AutoSize = true,
+            Font = new Font(Font, FontStyle.Bold),
+            Location = new Point(10, 7),
+            Text = "根据当前填写内容，实际连接过程如下",
+        };
+        _flowPreviewLabel = new Label
+        {
+            AutoEllipsis = true,
+            AutoSize = false,
+            ForeColor = Color.FromArgb(0, 82, 155),
+            Location = new Point(10, 29),
+            Size = new Size(698, 44),
+        };
+        flowPanel.Controls.AddRange(new Control[] { flowTitle, _flowPreviewLabel });
+
+        label_Comment.Text = "用途/备注";
+        label_Comment.Location = new Point(20, 439);
+        textBox_Comment.Location = new Point(100, 435);
+        textBox_Comment.Size = new Size(445, 23);
+        button_Set.Text = "保存并启用";
+        button_Set.Location = new Point(600, 429);
+        button_Set.Size = new Size(140, 35);
+
+        Controls.AddRange(new Control[] { explanation, listenerGroup, targetGroup, flowPanel });
+
+        components ??= new System.ComponentModel.Container();
+        var help = new ToolTip(components);
+        help.SetToolTip(textBox_ListenOn, "客户端要连接的 Windows 本机 IP。0.0.0.0 表示所有网卡地址。");
+        help.SetToolTip(textBox_ListenPort, "Windows 对外接收 TCP 连接的端口。");
+        help.SetToolTip(textBox_ConnectTo, "Windows 收到连接后，要转发到的设备或服务 IP。");
+        help.SetToolTip(textBox_ConnectPort, "目标设备或服务实际监听的 TCP 端口。");
+        help.SetToolTip(comboBox_Type, "v4tov4 表示 IPv4 入口转发到 IPv4 目标；通常保留自动选择即可。");
+
+        textBox_ListenOn.TextChanged += UpdateFlowPreview;
+        textBox_ListenPort.TextChanged += UpdateFlowPreview;
+        textBox_ConnectTo.TextChanged += UpdateFlowPreview;
+        textBox_ConnectPort.TextChanged += UpdateFlowPreview;
+        comboBox_Group.TextChanged += UpdateFlowPreview;
+        UpdateFlowPreview(this, EventArgs.Empty);
+    }
+
+    private void UpdateFlowPreview(object sender, EventArgs e)
+    {
+        var listenAddress = textBox_ListenOn.Text.Trim();
+        var listenPort = textBox_ListenPort.Text.Trim();
+        if (listenPort.IsNullOrWhiteSpace()) listenPort = "监听端口";
+
+        string windowsEndpoint;
+        if (listenAddress == "0.0.0.0" || listenAddress == "*")
+        {
+            windowsEndpoint = $"本机可达 IP:{listenPort}（{listenAddress} 表示监听所有网卡）";
+        }
+        else
+        {
+            if (listenAddress.IsNullOrWhiteSpace()) listenAddress = "监听 IP";
+            windowsEndpoint = $"{listenAddress}:{listenPort}";
+        }
+
+        var connectAddress = textBox_ConnectTo.Text.Trim();
+        if (connectAddress.IsNullOrWhiteSpace()) connectAddress = "目标 IP";
+
+        var connectPort = textBox_ConnectPort.Text.Trim();
+        if (connectPort.IsNullOrWhiteSpace()) connectPort = "目标端口";
+
+        var targetName = comboBox_Group.Text.Trim().Equals("WSL", StringComparison.OrdinalIgnoreCase)
+            ? "WSL"
+            : "目标服务";
+        _flowPreviewLabel.Text = $"① 客户端连接 Windows：{windowsEndpoint}\r\n" +
+                                 $"② Windows 再转发到 {targetName}：{connectAddress}:{connectPort}";
     }
 
     public void UseNormalMode()
