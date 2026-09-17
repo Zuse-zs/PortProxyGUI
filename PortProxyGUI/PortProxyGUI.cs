@@ -4,6 +4,7 @@ using PortProxyGUI.UI;
 using PortProxyGUI.Utils;
 using System;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -22,7 +23,48 @@ public partial class PortProxyGUI : Form
     public PortProxyGUI()
     {
         InitializeComponent();
+        LoadProxyStatusImages();
         listViewProxies.ListViewItemSorter = lvwColumnSorter;
+
+        var newWslProxy = new ToolStripMenuItem("新建 WSL 转发...");
+        newWslProxy.Click += NewWslProxy_Click;
+        contextMenuStrip_RightClick.Items.Insert(contextMenuStrip_RightClick.Items.IndexOf(toolStripMenuItem_New) + 1, newWslProxy);
+    }
+
+    private void LoadProxyStatusImages()
+    {
+        imageListProxies.Images.Add("disable.png", LoadEmbeddedImage("PortProxyGUI.Resources.disable.png"));
+        imageListProxies.Images.Add("enable.png", LoadEmbeddedImage("PortProxyGUI.Resources.enable.png"));
+    }
+
+    private static Image LoadEmbeddedImage(string resourceName)
+    {
+        using var stream = typeof(PortProxyGUI).Assembly.GetManifestResourceStream(resourceName)
+            ?? throw new InvalidOperationException($"找不到内嵌图片资源：{resourceName}");
+        using var image = Image.FromStream(stream);
+        return new Bitmap(image);
+    }
+
+    private void NewWslProxy_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            var address = WslUtil.GetDefaultDistributionAddress();
+            if (string.IsNullOrWhiteSpace(address))
+            {
+                MessageBox.Show("未检测到默认 WSL 发行版的 IPv4 地址，请确认 WSL 已启动。", "未找到 WSL",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            SetProxyForm ??= new SetProxy(this);
+            SetProxyForm.UseWslMode(address);
+            SetProxyForm.ShowDialog();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message, "获取 WSL 地址失败", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        }
     }
 
     private void PortProxyGUI_Load(object sender, EventArgs e)
@@ -121,7 +163,14 @@ public partial class PortProxyGUI : Form
 
     private void DeleteSelectedProxies()
     {
-        var items = listViewProxies.SelectedItems.OfType<ListViewItem>();
+        var items = listViewProxies.SelectedItems.OfType<ListViewItem>().ToArray();
+        if (items.Length == 0) return;
+        if (MessageBox.Show($"确定删除选中的 {items.Length} 条端口转发规则吗？", "确认删除",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
+        {
+            return;
+        }
+
         DisableSelectedProxies();
         Program.Database.RemoveRange(items.Select(x => new Data.Rule { Id = x.Tag.ToString() }));
         foreach (var item in items) listViewProxies.Items.Remove(item);
@@ -359,7 +408,7 @@ public partial class PortProxyGUI : Form
 
     private void toolStripMenuItem_Export_Click(object sender, EventArgs e)
     {
-        using var dialog = saveFileDialog_Export;
+        var dialog = saveFileDialog_Export;
 
         var result = dialog.ShowDialog();
         if (result == DialogResult.OK)
@@ -371,7 +420,7 @@ public partial class PortProxyGUI : Form
 
     private void toolStripMenuItem_Import_Click(object sender, EventArgs e)
     {
-        using var dialog = openFileDialog_Import;
+        var dialog = openFileDialog_Import;
 
         var result = dialog.ShowDialog();
         if (result == DialogResult.OK)

@@ -211,11 +211,8 @@ partial class PortProxyGUI
         // 
         // imageListProxies
         // 
-        imageListProxies.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-        imageListProxies.ImageStream = (System.Windows.Forms.ImageListStreamer)resources.GetObject("imageListProxies.ImageStream");
+        imageListProxies.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
         imageListProxies.TransparentColor = System.Drawing.Color.Transparent;
-        imageListProxies.Images.SetKeyName(0, "disable.png");
-        imageListProxies.Images.SetKeyName(1, "enable.png");
         // 
         // saveFileDialog_Export
         // 

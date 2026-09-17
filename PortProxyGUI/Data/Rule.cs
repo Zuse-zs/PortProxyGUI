@@ -38,12 +38,25 @@ public class Rule : IEquatable<Rule>
 
     public override int GetHashCode()
     {
-        return base.GetHashCode();
+        unchecked
+        {
+            var hash = 17;
+            hash = hash * 31 + (Id?.GetHashCode() ?? 0);
+            hash = hash * 31 + (Type?.GetHashCode() ?? 0);
+            hash = hash * 31 + (ListenOn?.GetHashCode() ?? 0);
+            hash = hash * 31 + ListenPort.GetHashCode();
+            hash = hash * 31 + (ConnectTo?.GetHashCode() ?? 0);
+            hash = hash * 31 + ConnectPort.GetHashCode();
+            hash = hash * 31 + (Comment?.GetHashCode() ?? 0);
+            hash = hash * 31 + (Group?.GetHashCode() ?? 0);
+            return hash;
+        }
     }
 
     public bool Equals(Rule other)
     {
-        return Id == other.Id
+        return other is not null
+            && Id == other.Id
             && Type == other.Type
             && ListenOn == other.ListenOn
             && ListenPort == other.ListenPort
@@ -55,7 +68,8 @@ public class Rule : IEquatable<Rule>
 
     public bool EqualsWithKeys(Rule other)
     {
-        return Type == other.Type
+        return other is not null
+            && Type == other.Type
             && ListenOn == other.ListenOn
             && ListenPort == other.ListenPort;
     }

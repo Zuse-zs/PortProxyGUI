@@ -2,8 +2,9 @@
 using PortProxyGUI.Data;
 using PortProxyGUI.Utils;
 using System;
+using System.Net;
+using System.Net.Sockets;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace PortProxyGUI;
@@ -49,6 +50,17 @@ public partial class SetProxy : Form
         textBox_Comment.Text = "";
     }
 
+    public void UseWslMode(string address)
+    {
+        UseNormalMode();
+        comboBox_Type.Text = "v4tov4";
+        textBox_ListenOn.Text = "0.0.0.0";
+        textBox_ConnectTo.Text = address;
+        textBox_Comment.Text = "WSL 端口转发";
+        comboBox_Group.Text = "WSL";
+        textBox_ListenPort.Focus();
+    }
+
     public void UseUpdateMode(ListViewItem item, Rule rule)
     {
         _updateMode = true;
@@ -68,7 +80,13 @@ public partial class SetProxy : Form
 
     private bool IsIPv6(string ip)
     {
-        return ip.IsMatch(new Regex(@"^[\dABCDEF]{2}(?::(?:[\dABCDEF]{2})){5}$"));
+        return IPAddress.TryParse(ip, out var address)
+            && address.AddressFamily == AddressFamily.InterNetworkV6;
+    }
+
+    private static bool IsValidAddress(string address, bool allowWildcard)
+    {
+        return (allowWildcard && address == "*") || IPAddress.TryParse(address, out _);
     }
 
     private string GetPassType(string listenOn, string connectTo)
@@ -104,6 +122,13 @@ public partial class SetProxy : Form
             Group = comboBox_Group.Text.Trim(),
         };
 
+        if (!IsValidAddress(rule.ListenOn, true) || !IsValidAddress(rule.ConnectTo, false))
+        {
+            MessageBox.Show("请输入有效的监听地址和目标 IP 地址；监听地址可使用 *。", "地址无效",
+                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            return;
+        }
+
         if (rule.Type == AutoTypeString) rule.Type = GetPassType(rule.ListenOn, rule.ConnectTo);
 
         if (!new[] { "v4tov4", "v4tov6", "v6tov4", "v6tov6" }.Contains(rule.Type))
@@ -112,13 +137,25 @@ public partial class SetProxy : Form
             return;
         }
 
+        var oldRule = _updateMode
+            ? Program.Database.GetRule(_itemRule.Type, _itemRule.ListenOn, _itemRule.ListenPort)
+            : null;
+        var conflictingRule = Program.Database.GetRule(rule.Type, rule.ListenOn, rule.ListenPort);
+        if (conflictingRule is not null && (oldRule is null || conflictingRule.Id != oldRule.Id))
+        {
+            MessageBox.Show("相同类型、监听地址和端口的规则已经存在。", "规则冲突",
+                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            return;
+        }
+
         if (_updateMode)
         {
-            var oldRule = Program.Database.GetRule(_itemRule.Type, _itemRule.ListenOn, _itemRule.ListenPort);
-            Util.DeleteProxy(oldRule);
-            Program.Database.Remove(oldRule);
-
             Util.AddOrUpdateProxy(rule);
+            if (oldRule is not null)
+            {
+                if (!oldRule.EqualsWithKeys(rule)) Util.DeleteProxy(oldRule);
+                Program.Database.Remove(oldRule);
+            }
             Program.Database.Add(rule);
 
             ParentWindow.UpdateListViewItem(_listViewItem, rule, 1);
