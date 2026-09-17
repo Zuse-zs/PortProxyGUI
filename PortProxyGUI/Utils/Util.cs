@@ -12,7 +12,7 @@ public static class Util
     internal static readonly string ServiceName = "iphlpsvc";
     internal static readonly string ServiceFriendlyName = "IP Helper";
 
-    private static InvalidOperationException InvalidPortProxyType(string type) => new($"Invalid port proxy type ({type}).");
+    private static InvalidOperationException InvalidPortProxyType(string type) => new($"无效的端口代理类型：{type}。");
     private static readonly string[] ProxyTypes = ["v4tov4", "v4tov6", "v6tov4", "v6tov6"];
 
     private static string GetKeyName(string type)
@@ -90,13 +90,13 @@ public static class Util
     public static bool IsServiceRunning()
     {
         var hManager = NativeMethods.OpenSCManager(null, null, (uint)GenericRights.GENERIC_READ);
-        if (hManager == IntPtr.Zero) throw new InvalidOperationException("Open SC Manager failed.");
+        if (hManager == IntPtr.Zero) throw new InvalidOperationException("打开 Windows 服务管理器失败。");
 
         var hService = NativeMethods.OpenService(hManager, ServiceName, ServiceRights.SERVICE_QUERY_STATUS);
         if (hService == IntPtr.Zero)
         {
             NativeMethods.CloseServiceHandle(hManager);
-            throw new InvalidOperationException($"Open Service ({ServiceName}) failed.");
+            throw new InvalidOperationException($"打开 Windows 服务 {ServiceName} 失败。");
         }
 
         var status = new ServiceStatus();
@@ -111,13 +111,13 @@ public static class Util
     public static void StartService()
     {
         var hManager = NativeMethods.OpenSCManager(null, null, (uint)GenericRights.GENERIC_READ | (uint)ScmRights.SC_MANAGER_CONNECT);
-        if (hManager == IntPtr.Zero) throw new InvalidOperationException("Open SC Manager failed.");
+        if (hManager == IntPtr.Zero) throw new InvalidOperationException("打开 Windows 服务管理器失败。");
 
         var hService = NativeMethods.OpenService(hManager, ServiceName, ServiceRights.SERVICE_START);
         if (hService == IntPtr.Zero)
         {
             NativeMethods.CloseServiceHandle(hManager);
-            throw new InvalidOperationException($"Open Service ({ServiceName}) failed.");
+            throw new InvalidOperationException($"打开 Windows 服务 {ServiceName} 失败。");
         }
 
         NativeMethods.StartService(hService, 0, null);
@@ -129,13 +129,13 @@ public static class Util
     public static void ParamChange()
     {
         var hManager = NativeMethods.OpenSCManager(null, null, (uint)GenericRights.GENERIC_READ);
-        if (hManager == IntPtr.Zero) throw new InvalidOperationException("Open SC Manager failed.");
+        if (hManager == IntPtr.Zero) throw new InvalidOperationException("打开 Windows 服务管理器失败。");
 
         var hService = NativeMethods.OpenService(hManager, ServiceName, ServiceRights.SERVICE_PAUSE_CONTINUE);
         if (hService == IntPtr.Zero)
         {
             NativeMethods.CloseServiceHandle(hManager);
-            throw new InvalidOperationException($"Open Service ({ServiceName}) failed.");
+            throw new InvalidOperationException($"打开 Windows 服务 {ServiceName} 失败。");
         }
 
         var status = new ServiceStatus();

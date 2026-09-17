@@ -91,7 +91,7 @@ public partial class PortProxyGUI : Form
             }
             catch (NotSupportedException ex)
             {
-                MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
         }
@@ -112,7 +112,7 @@ public partial class PortProxyGUI : Form
             }
             catch (NotSupportedException ex)
             {
-                MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
         }
@@ -137,7 +137,7 @@ public partial class PortProxyGUI : Form
         }
         catch (NotSupportedException ex)
         {
-            MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            MessageBox.Show(ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             return;
         }
     }
@@ -252,12 +252,12 @@ public partial class PortProxyGUI : Form
 
                 case ToolStripMenuItem item when item == toolStripMenuItem_Refresh:
                     RefreshProxyList();
-                    toolStripStatusLabel_Status.Text = $"{DateTime.Now} : Refreshed.";
+                    toolStripStatusLabel_Status.Text = $"{DateTime.Now}：已刷新。";
                     break;
 
                 case ToolStripMenuItem item when item == toolStripMenuItem_FlushDnsCache:
                     DnsUtil.FlushCache();
-                    toolStripStatusLabel_Status.Text = $"{DateTime.Now} : DNS cache cleared.";
+                    toolStripStatusLabel_Status.Text = $"{DateTime.Now}：DNS 缓存已清除。";
                     break;
 
                 case ToolStripMenuItem item when item == toolStripMenuItem_Delete:

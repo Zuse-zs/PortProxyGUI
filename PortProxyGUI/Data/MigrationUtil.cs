@@ -34,11 +34,11 @@ public class MigrationUtil
 
         if (new Version(migration.ProductVersion) > assemblyVersion)
         {
-            if (MessageBox.Show(@"The current software version cannot use the configuration.
+            if (MessageBox.Show(@"当前软件版本无法使用现有配置。
 
-You need to use a newer version of PortProxyGUI.
+请升级到更新版本的 PortProxyGUI。
 
-Would you like to download it now?", "Upgrade", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+是否立即打开下载页面？", "需要升级", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 Process.Start("explorer.exe", "https://github.com/zmjack/PortProxyGUI/releases");
             }

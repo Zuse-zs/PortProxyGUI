@@ -79,7 +79,7 @@
     <value>0</value>
   </data>
   <data name="label_ListenOn.Text" xml:space="preserve">
-    <value>Listen on</value>
+    <value>监听地址</value>
   </data>
   <data name="&gt;&gt;label_ListenOn.Name" xml:space="preserve">
     <value>label_ListenOn</value>
@@ -145,7 +145,7 @@
     <value>0</value>
   </data>
   <data name="label_ConnectTo.Text" xml:space="preserve">
-    <value>Connect to</value>
+    <value>目标地址</value>
   </data>
   <data name="&gt;&gt;label_ConnectTo.Name" xml:space="preserve">
     <value>label_ConnectTo</value>
@@ -238,7 +238,7 @@
     <value>0</value>
   </data>
   <data name="label_ConnectPort.Text" xml:space="preserve">
-    <value>Port</value>
+    <value>端口</value>
   </data>
   <data name="&gt;&gt;label_ConnectPort.Name" xml:space="preserve">
     <value>label_ConnectPort</value>
@@ -268,7 +268,7 @@
     <value>7</value>
   </data>
   <data name="button_Set.Text" xml:space="preserve">
-    <value>Set</value>
+    <value>保存</value>
   </data>
   <data name="&gt;&gt;button_Set.Name" xml:space="preserve">
     <value>button_Set</value>
@@ -301,7 +301,7 @@
     <value>0</value>
   </data>
   <data name="label_Type.Text" xml:space="preserve">
-    <value>Type</value>
+    <value>类型</value>
   </data>
   <data name="&gt;&gt;label_Type.Name" xml:space="preserve">
     <value>label_Type</value>
@@ -334,7 +334,7 @@
     <value>0</value>
   </data>
   <data name="label_ListenPort.Text" xml:space="preserve">
-    <value>Port</value>
+    <value>端口</value>
   </data>
   <data name="&gt;&gt;label_ListenPort.Name" xml:space="preserve">
     <value>label_ListenPort</value>
@@ -442,7 +442,7 @@
     <value>7</value>
   </data>
   <data name="label_Comment.Text" xml:space="preserve">
-    <value>Comment</value>
+    <value>备注</value>
   </data>
   <data name="&gt;&gt;label_Comment.Name" xml:space="preserve">
     <value>label_Comment</value>
@@ -508,7 +508,7 @@
     <value>9</value>
   </data>
   <data name="label_Group.Text" xml:space="preserve">
-    <value>Group</value>
+    <value>分组</value>
   </data>
   <data name="&gt;&gt;label_Group.Name" xml:space="preserve">
     <value>label_Group</value>
@@ -2723,7 +2723,7 @@
     <value>Manual</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Set Proxy</value>
+    <value>设置端口转发</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SetProxy</value>

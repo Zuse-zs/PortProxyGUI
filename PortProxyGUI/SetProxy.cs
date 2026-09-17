@@ -89,7 +89,7 @@ public partial class SetProxy : Form
         }
         catch (NotSupportedException ex)
         {
-            MessageBox.Show(ex.Message, "Invalid port", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            MessageBox.Show(ex.Message, "端口无效", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             return;
         }
 
@@ -108,7 +108,7 @@ public partial class SetProxy : Form
 
         if (!new[] { "v4tov4", "v4tov6", "v6tov4", "v6tov6" }.Contains(rule.Type))
         {
-            MessageBox.Show($"Unknow type for ({rule.ListenOn} -> {rule.ConnectTo}).", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            MessageBox.Show($"无法确定从 {rule.ListenOn} 到 {rule.ConnectTo} 的转发类型。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             return;
         }
 

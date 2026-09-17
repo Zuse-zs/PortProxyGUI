@@ -143,13 +143,13 @@
     <value>100</value>
   </data>
   <data name="columnHeader5.Text" xml:space="preserve">
-    <value>转发地址</value>
+    <value>目标地址</value>
   </data>
   <data name="columnHeader5.Width" type="System.Int32, mscorlib">
     <value>140</value>
   </data>
   <data name="columnHeader6.Text" xml:space="preserve">
-    <value>转发端口</value>
+    <value>目标端口</value>
   </data>
   <data name="columnHeader6.Width" type="System.Int32, mscorlib">
     <value>100</value>
@@ -2477,7 +2477,7 @@
     <value>CenterScreen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Port Proxy GUI</value>
+    <value>端口转发管理器</value>
   </data>
   <data name="&gt;&gt;columnHeader1.Name" xml:space="preserve">
     <value>columnHeader1</value>
@@ -2594,10 +2594,10 @@
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="toolStripMenuItem_FlushDnsCache.Text" xml:space="preserve">
-    <value>清理 DNS 缓存</value>
+    <value>清除 DNS 缓存</value>
   </data>
   <data name="toolStripMenuItem_FlushDnsCache.ToolTipText" xml:space="preserve">
-    <value>执行 ipconfig /flushDNS</value>
+    <value>执行 ipconfig /flushdns</value>
   </data>
   <data name="toolStripMenuItem_Export.Text" xml:space="preserve">
     <value>导出</value>
@@ -2615,9 +2615,9 @@
     <value>FooterStrip</value>
   </data>
   <data name="toolStripStatusLabel_ServiceNotRunning.Text" xml:space="preserve">
-    <value>IP Helper 服务未启动（点击启动）</value>
+    <value>IP Helper 服务未运行（点击启动）</value>
   </data>
   <data name="toolStripStatusLabel_Status.Text" xml:space="preserve">
-    <value>欢迎使用 Port Proxy GUI ！</value>
+    <value>欢迎使用端口转发管理器！</value>
   </data>
 </root>

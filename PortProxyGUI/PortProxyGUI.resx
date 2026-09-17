@@ -125,37 +125,37 @@
     <value>24</value>
   </data>
   <data name="columnHeader2.Text" xml:space="preserve">
-    <value>Type</value>
+    <value>类型</value>
   </data>
   <data name="columnHeader2.Width" type="System.Int32, mscorlib">
     <value>64</value>
   </data>
   <data name="columnHeader3.Text" xml:space="preserve">
-    <value>Listen on</value>
+    <value>监听地址</value>
   </data>
   <data name="columnHeader3.Width" type="System.Int32, mscorlib">
     <value>140</value>
   </data>
   <data name="columnHeader4.Text" xml:space="preserve">
-    <value>Listen port</value>
+    <value>监听端口</value>
   </data>
   <data name="columnHeader4.Width" type="System.Int32, mscorlib">
     <value>100</value>
   </data>
   <data name="columnHeader5.Text" xml:space="preserve">
-    <value>Connect to</value>
+    <value>目标地址</value>
   </data>
   <data name="columnHeader5.Width" type="System.Int32, mscorlib">
     <value>140</value>
   </data>
   <data name="columnHeader6.Text" xml:space="preserve">
-    <value>Connect port</value>
+    <value>目标端口</value>
   </data>
   <data name="columnHeader6.Width" type="System.Int32, mscorlib">
     <value>100</value>
   </data>
   <data name="columnHeader7.Text" xml:space="preserve">
-    <value>Comment</value>
+    <value>备注</value>
   </data>
   <data name="columnHeader7.Width" type="System.Int32, mscorlib">
     <value>100</value>
@@ -256,13 +256,13 @@
     <value>174, 22</value>
   </data>
   <data name="toolStripMenuItem_Enable.Text" xml:space="preserve">
-    <value>Enable (&amp;E)</value>
+    <value>启用 (&amp;E)</value>
   </data>
   <data name="toolStripMenuItem_Disable.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 22</value>
   </data>
   <data name="toolStripMenuItem_Disable.Text" xml:space="preserve">
-    <value>Disable (&amp;I)</value>
+    <value>禁用 (&amp;I)</value>
   </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 6</value>
@@ -271,16 +271,16 @@
     <value>174, 22</value>
   </data>
   <data name="toolStripMenuItem_Refresh.Text" xml:space="preserve">
-    <value>Refresh (&amp;F)</value>
+    <value>刷新 (&amp;F)</value>
   </data>
   <data name="toolStripMenuItem_FlushDnsCache.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 22</value>
   </data>
   <data name="toolStripMenuItem_FlushDnsCache.Text" xml:space="preserve">
-    <value>Flush DNS Cache</value>
+    <value>清除 DNS 缓存</value>
   </data>
   <data name="toolStripMenuItem_FlushDnsCache.ToolTipText" xml:space="preserve">
-    <value>Perform ipconfig /flushDNS</value>
+    <value>执行 ipconfig /flushdns</value>
   </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 6</value>
@@ -289,19 +289,19 @@
     <value>174, 22</value>
   </data>
   <data name="toolStripMenuItem_New.Text" xml:space="preserve">
-    <value>New (&amp;N) ...</value>
+    <value>新建 (&amp;N)...</value>
   </data>
   <data name="toolStripMenuItem_Modify.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 22</value>
   </data>
   <data name="toolStripMenuItem_Modify.Text" xml:space="preserve">
-    <value>Modify (&amp;M) ...</value>
+    <value>修改 (&amp;M)...</value>
   </data>
   <data name="toolStripMenuItem_Delete.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 22</value>
   </data>
   <data name="toolStripMenuItem_Delete.Text" xml:space="preserve">
-    <value>Delete (&amp;D)</value>
+    <value>删除 (&amp;D)</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 6</value>
@@ -310,19 +310,19 @@
     <value>174, 22</value>
   </data>
   <data name="toolStripMenuItem_More.Text" xml:space="preserve">
-    <value>More</value>
+    <value>更多</value>
   </data>
   <data name="toolStripMenuItem_Import.Size" type="System.Drawing.Size, System.Drawing">
     <value>159, 22</value>
   </data>
   <data name="toolStripMenuItem_Import.Text" xml:space="preserve">
-    <value>Import</value>
+    <value>导入</value>
   </data>
   <data name="toolStripMenuItem_Export.Size" type="System.Drawing.Size, System.Drawing">
     <value>159, 22</value>
   </data>
   <data name="toolStripMenuItem_Export.Text" xml:space="preserve">
-    <value>Export</value>
+    <value>导出</value>
   </data>
   <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
     <value>156, 6</value>
@@ -331,7 +331,7 @@
     <value>159, 22</value>
   </data>
   <data name="toolStripMenuItem_ResetWindowSize.Text" xml:space="preserve">
-    <value>Reset Window</value>
+    <value>重置窗口</value>
   </data>
   <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 6</value>
@@ -340,19 +340,19 @@
     <value>174, 22</value>
   </data>
   <data name="toolStripMenuItem_About.Text" xml:space="preserve">
-    <value>About</value>
+    <value>关于</value>
   </data>
   <data name="saveFileDialog_Export.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>389, 17</value>
   </data>
   <data name="saveFileDialog_Export.Filter" xml:space="preserve">
-    <value>Database File|*.db</value>
+    <value>配置数据库|*.db</value>
   </data>
   <data name="openFileDialog_Import.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>569, 17</value>
   </data>
   <data name="openFileDialog_Import.Filter" xml:space="preserve">
-    <value>Database File|*.db</value>
+    <value>配置数据库|*.db</value>
   </data>
   <data name="statusStrip_Footer.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>755, 17</value>
@@ -385,13 +385,13 @@
     <value>171, 17</value>
   </data>
   <data name="toolStripStatusLabel_Status.Text" xml:space="preserve">
-    <value>Welcome to Port Proxy GUI !</value>
+    <value>欢迎使用端口转发管理器！</value>
   </data>
   <data name="toolStripStatusLabel_ServiceNotRunning.Size" type="System.Drawing.Size, System.Drawing">
     <value>278, 17</value>
   </data>
   <data name="toolStripStatusLabel_ServiceNotRunning.Text" xml:space="preserve">
-    <value>IP Helper service is not running (Click to start)</value>
+    <value>IP Helper 服务未运行（点击启动）</value>
   </data>
   <data name="toolStripStatusLabel_ServiceNotRunning.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2570,7 +2570,7 @@
     <value>CenterScreen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Port Proxy GUI</value>
+    <value>端口转发管理器</value>
   </data>
   <data name="&gt;&gt;columnHeader1.Name" xml:space="preserve">
     <value>columnHeader1</value>

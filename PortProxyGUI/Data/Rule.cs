@@ -63,7 +63,7 @@ public class Rule : IEquatable<Rule>
     public static int ParsePort(string portString)
     {
         if (int.TryParse(portString, out var port) && 0 < port && port < 65536) return port;
-        else throw new NotSupportedException($"Invalid port string. ({portString})");
+        else throw new NotSupportedException($"端口无效：{portString}。请输入 1 到 65535 之间的数字。");
     }
 
     public override bool Equals(object obj)
